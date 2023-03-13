@@ -8,7 +8,7 @@ const ProductPage = () => {
     const {id} = useParams();
     
     useEffect(() => {
-        const url = `https://7afbc930-6d61-4ed5-b8be-1bb475e31911.mock.pstmn.io/${id}`;
+        const url = `https://7afbc930-6d61-4ed5-b8be-1bb475e31911.mock.pstmn.io/products/${id}`;
         
         axios.get(url).then((result) => {
             setProduct(result.data);
@@ -26,6 +26,7 @@ const ProductPage = () => {
         <div>
             <div>
                 <button id="back-btn" onClick={() => {navigate(-1)}}>back</button>
+                <div id="seller">{product.desc}</div>
                 <br />
                 <div id="image-box">
                     <img src={`/${product.imageUrl}`}  alt={product.name}/>
@@ -41,3 +42,6 @@ const ProductPage = () => {
 }
 
 export default ProductPage;
+
+
+

@@ -1,4 +1,4 @@
-*{margin:0; padding:0;}
+*{margin:0; padding:0; line-height: 1;}
 a { text-decoration: none; color: #000; }
 
 #header{height:64px; display: flex; justify-content: center; border-bottom:1px solid gray;}
@@ -9,7 +9,7 @@ a { text-decoration: none; color: #000; }
 
 #banner{height:300px;}
 #banner img{width:100%;}
-#header-area{width:1024px; height:100%; display:flex; align-items: center;}
+#header-area{width:1024px; height:100%; display:flex; justify-content: space-between; align-items: center;}
 #header-area img{width: 128px;}
 
 #product-list{display:flex; flex-wrap: wrap;}
@@ -20,6 +20,7 @@ a { text-decoration: none; color: #000; }
 .product-price{font-size:16px; font-weight: 600; margin-top:4px;} 
 .product-seller{display:flex; align-items: center; margin-top:12px;} 
 .product-avatar{width:24px;} 
+
 
 
 
