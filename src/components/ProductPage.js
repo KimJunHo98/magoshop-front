@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom"; //useParams을 사용해서 id값을 전달받음
 import axios from "axios";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const ProductPage = () => {
     const [product, setProduct] = useState(null); // 처음엔 null
@@ -8,10 +12,11 @@ const ProductPage = () => {
     const {id} = useParams();
     
     useEffect(() => {
-        const url = `https://7afbc930-6d61-4ed5-b8be-1bb475e31911.mock.pstmn.io/products/${id}`;
+        const url = `http://localhost:8080/products/${id}`;
         
         axios.get(url).then((result) => {
-            setProduct(result.data);
+            setProduct(result.data.product);
+            // console.log(result);
         }).catch((error) => {
             console.log("error", error);
         });
@@ -29,11 +34,12 @@ const ProductPage = () => {
                 <div id="seller">{product.desc}</div>
                 <br />
                 <div id="image-box">
-                    <img src={`/${product.imageUrl}`}  alt={product.name}/>
+                    <img src={`/${product.imgUrl}`}  alt={product.name}/>
                 </div>
                 <div id="content-box">
                     <div id="name">{product.name}</div>
                     <div id="price">{product.price}원</div>
+                    <div id="createdAt">상품등록일 {dayjs(product.createdAt).format("YY-MM-DD-hh시MM분ss초")}</div>
                     <div id="seller">{product.seller}</div>
                 </div>
             </div>
