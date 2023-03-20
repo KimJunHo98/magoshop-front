@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_URL } from "../config/constants.js";
+import { API_URL } from "../config/constants";
 
 import axios from "axios";
 import "./ProductPage.css";
@@ -37,7 +37,7 @@ const ProductPage = () => {
 				뒤로
 			</button>
 			<div id="image-box">
-				<img src={`/${product.imageUrl}`} alt={product.name} />
+				<img src={`${API_URL}/${product.imageUrl}`} alt={product.name} />
 			</div>
 			<div id="profile-box">
 				<img src="/images/icons/avatar.png" alt={product.seller} />

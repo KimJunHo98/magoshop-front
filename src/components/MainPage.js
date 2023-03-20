@@ -34,17 +34,18 @@ const MainPage = () => {
 							<div className="product-card" key={product.id}>
 								<Link className="product-link" to={`/products/${product.id}`}>
 									<div>
-										<img className="product-img" src={product.imageUrl} alt={product.name} />
+										<img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name} />
 									</div>
 									<div className="product-content">
 										<span className="product-name">{product.name}</span>
-										<span className="product-price">{product.price}</span>
+										<span className="product-price">{product.price}원</span>
 										<div className="product-footer">
 											<span className="product-seller">
 												<img src="images/icons/avatar.png" className="product-avatar" alt="{product.seller}" />
 												<span>{product.seller}</span>
 											</span>
 											<span className="product-date">상품등록일: {dayjs(product.createdAt).format("YY년MM월DD일-hh시MM분ss초")}</span>
+											<pre id="description">{product.desc}</pre>
 										</div>
 									</div>
 								</Link>
