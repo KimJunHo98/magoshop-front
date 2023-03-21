@@ -5,27 +5,28 @@ import { API_URL } from "../config/constants.js";
 
 import "./UploadPage.css";
 import axios from "axios";
-
 const { TextArea } = Input;
 const UploadPage = () => {
 	const [imageUrl, setImageUrl] = useState(null);
+
 	const navigate = useNavigate();
-	const [messageApi, contextHolder] = message.useMessage();
 	const onFinish = (val) => {
-		axios.post(`${API_URL}/products`, {
-			name: val.name,
-			desc: val.description,
-			price: val.price,
-			seller: val.seller,
-			imageUrl: imageUrl,
-		}).then((result) => {
-			console.log(result);
-			navigate("/", {replace: true}); // 상품등록을 하면 메인컴포넌트로 바로 이동
-			// replace: true 뒤로가기 작동 x, false 뒤로가기 작동 o
-		}).catch((error) => {
-			console.log(error);
-			message.error(`에러가 발생하였습니다`);
-		});
+		axios
+			.post(`${API_URL}/products`, {
+				name: val.name,
+				desc: val.description,
+				price: val.price,
+				seller: val.seller,
+				imageUrl: imageUrl,
+			})
+			.then((result) => {
+				console.log(result);
+				navigate("/", { replace: true });
+			})
+			.catch((error) => {
+				console.error(error);
+				message.error(`에러가 발생하였습니다`);
+			});
 	};
 
 	const onChangeImage = (info) => {
@@ -34,99 +35,46 @@ const UploadPage = () => {
 		}
 		if (info.file.status === "done") {
 			const response = info.file.response;
-			console.log(response);
 			const imageUrl = response.imageUrl;
 			setImageUrl(imageUrl);
 		}
 	};
 
-	const info = () => {
-		messageApi.info('상품등록이 완료되었습니다');
-	};
-
 	return (
 		<div id="upload-container">
 			<Form name="uploadForm" onFinish={onFinish}>
-				<Form.Item name="upload">
-					<Upload
-						name="image"
-						action={`${API_URL}/image`}
-						listType="picture"
-						showUploadList={false}
-						onChange={onChangeImage}
-					>
+				<Form.Item name="files" valuePropName="image">
+					<Upload name="image" action={`${API_URL}/image`} listType="image" showUploadList={false} onChange={onChangeImage}>
 						{imageUrl ? (
-						<img id="upload-img" src={`${API_URL}/${imageUrl}`} alt="" />
+							<img id="upload-img" src={`${API_URL}/${imageUrl}`} alt="" />
 						) : (
-						<div id="upload-img-placeholder">
-							<img src="/images/icons/camera.png" alt="" />
-							<span>이미지를 업로드 해주세요</span>
-						</div>
+							<div id="upload-img-placeholder">
+								<img src="/images/icons/camera.png" alt="" />
+								<span>이미지를 업로드 해주세요</span>
+							</div>
 						)}
 					</Upload>
 				</Form.Item>
+				<Divider></Divider>
 
-				<Divider></Divider>
-				<Form.Item
-				label={<span className="upload-label">판매자명</span>}
-				name="seller"
-				rules={[
-					{ required: true, message: "판매자명은 필수 입력 사항입니다." },
-				]}
-				>
-					<Input
-						className="upload-seller"
-						placeholder="판매자명을 입력해주세요"
-						size="large"
-					/>
-				</Form.Item>
-				<Form.Item
-				label={<span className="upload-label">상품명</span>}
-				name="name"
-				rules={[
-					{ required: true, message: "상품명은 필수 입력 사항입니다." },
-				]}
-				>
-					<Input
-						className="upload-name"
-						placeholder="상품명을 입력해주세요"
-						size="large"
-					/>
+				<Form.Item label={<span className="upload-label">상품명</span>} name="name" rules={[{ required: true, message: "상품명은 필수 입력 사항입니다." }]}>
+					<Input className="upload-name" placeholder="상품명을 입력해주세요" size="large" />
 				</Form.Item>
 				<Divider></Divider>
-				<Form.Item
-				label={<span className="upload-price">판매가</span>}
-				name="price"
-				rules={[
-					{ required: true, message: "판매가는 필수 입력 사항입니다." },
-				]}
-				>
-					<InputNumber
-						className="upload-price"
-						size="large"
-						min={0}
-						defaultValue={0}
-					/>
+
+				<Form.Item label={<span className="upload-label">판매자명</span>} name="seller" rules={[{ required: true, message: "판매자명은 필수 입력 사항입니다." }]}>
+					<Input className="upload-seller" placeholder="판매자명을 입력해주세요" size="large" />
+				</Form.Item>
+
+				<Form.Item label={<span className="upload-price">판매가</span>} name="price" rules={[{ required: true, message: "판매가는 필수 입력 사항입니다." }]} initialValue={0}>
+					<InputNumber className="upload-price" size="large" min={0} defaultValue={0} />
 				</Form.Item>
 				<Divider></Divider>
-				<Form.Item
-				label={<span className="upload-label">상품설명</span>}
-				name="description"
-				rules={[
-					{ required: true, message: "상품설명은 필수 입력 사항입니다." },
-				]}
-				>
-					<TextArea
-						size="large"
-						id="product-description"
-						showCount
-						maxLength={300}
-						placeholder="상품설명을 작성해주세요"
-					></TextArea>
+				<Form.Item label={<span className="upload-label">상품설명</span>} name="description" rules={[{ required: true, message: "상품설명은 필수 입력 사항입니다." }]}>
+					<TextArea size="large" id="product-description" showCount maxLength={300} placeholder="상품설명을 작성해주세요"></TextArea>
 				</Form.Item>
 				<Form.Item>
-					{contextHolder}
-					<Button id="submit-button" htmlType="submit" onClick={info}>
+					<Button id="submit-button" htmlType="submit">
 						상품등록하기
 					</Button>
 				</Form.Item>
